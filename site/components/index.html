@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>Components - GGMP Documentation</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">GGMP Documentation</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Components</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../message-types/">Message Types</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="..">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../message-types/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#ggmp-message-components">GGMP Message Components</a></li>
+        
+            <li><a href="#head-header">HEAD: Header</a></li>
+        
+            <li><a href="#cl-client-id">CL: Client ID</a></li>
+        
+            <li><a href="#mid-message-id">MID: Message ID</a></li>
+        
+            <li><a href="#ar-actor">AR: Actor</a></li>
+        
+            <li><a href="#an-action">AN: Action</a></li>
+        
+            <li><a href="#ac1-ac2-action-condition-1-and-2">AC1, AC2: Action Condition 1 and 2</a></li>
+        
+            <li><a href="#dat-action-data">DAT : Action Data</a></li>
+        
+            <li><a href="#siz-data-size">SIZ: Data Size</a></li>
+        
+            <li><a href="#pmsg-parent-message">PMSG: Parent Message</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="ggmp-message-components">GGMP Message Components</h1>
+<p>GGMP Messages are comprised of <em>Components</em>, which describe the Message format itself, as well as Client ID, Actors and
+ Actions, and so on. Not every Component is included in every Message; the Header dictates the <em>Message Type</em>, which 
+further dictates the Components and structure of the Message.</p>
+<h2 id="head-header">HEAD: Header</h2>
+<ul>
+<li>Size: 1 byte</li>
+<li>Acceptable Values: 0x00 - 0xFF</li>
+</ul>
+<p>The Header dictates the Message Type. The following Message Types are currently available in GGMP. For information on 
+their structure, see <a href="../message-types/">Message Types</a></p>
+<table>
+<thead>
+<tr>
+<th>Header Value</th>
+<th>Type</th>
+<th>Description</th>
+<th>Size (bytes)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Action</td>
+<td>Long-form Action with Conditions, Message IDs</td>
+<td>18</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ActionAck</td>
+<td>Long-form Action as above, but require ACK</td>
+<td>18</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Action Short</td>
+<td>Lightweight Action with reduced value ranges</td>
+<td>8</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Action Ext</td>
+<td>Action with additional data contained in a following message</td>
+<td>?</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Data</td>
+<td>Data corresponding to a previous message</td>
+<td>?</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>Client Assign</td>
+<td>Used by server to assign a Client ID to a connected Client</td>
+<td>?</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>Acknowledge</td>
+<td>ACK a previous message which has requested it</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p>An important note: Any Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value of the Header 
+by 0x01. In the table above, this property is explicitly written for the Action message type, however this property is 
+implemented for all Message Types in the above range, and is simply implied in much of this documentation.</p>
+<h2 id="cl-client-id">CL: Client ID</h2>
+<ul>
+<li>Size: 3 bytes </li>
+<li>Acceptable Values: 0x000001 - 0xFFFFFF for Clients, 0x00 for Server</li>
+</ul>
+<p>The Client ID is a value assigned to a Client by the Game Server. It is useful for tracking origin of a Message as it is
+processed by the Game Server. Additionally, it provides a way, if desired, to delineate Actors based on Client. A game 
+could choose to have all actors 'owned' by a particular client, providing a number of benefits, not the least of which 
+is an additional layer of security against message spoofing.</p>
+<p>The Client ID 0x00 is reserved for the Game Server itself. Further Client IDs should begin at 0x01 and increment by 0x01
+for each new client assigned.</p>
+<h2 id="mid-message-id">MID: Message ID</h2>
+<ul>
+<li>Size: 4 bytes</li>
+<li>Acceptable Values: 0x00000000 - 0xFFFFFFFFF</li>
+<li>Optional</li>
+</ul>
+<p>The Message ID is an optional Component that can assist with certain features in advanced GGMP implementations. For 
+example, any game requiring the use of ACKs must implement Message IDs. Additionally, Message IDs can be used to estimate
+packet loss, ensure correct ordering of packets, etc.</p>
+<p>Message IDs should be unique per client per message. That is to say: no one Client should send multiple Messages with 
+the same ID. However, Messages from <em>different</em> clients can share IDs, and in fact this is expected.</p>
+<p>Each client should begin counting their Messages at 0x00000000 and increment them by 0x01 with every message sent.</p>
+<p>If a game does not choose to implement Message IDs, the byte ranges designated for Message IDs should be cleared to 
+ 0x00000000.</p>
+<h2 id="ar-actor">AR: Actor</h2>
+<ul>
+<li>Size: 4 bytes</li>
+<li>Acceptable Values: 0x00000000 - 0xFFFFFFFF</li>
+</ul>
+<p>The Actor is any game entity which takes an Action. The assignment, interpretation, and implementation of these actors 
+is left entirely to the programmer. Actors can correspond to individual players, units controlled by players, the game 
+state itself, etc.</p>
+<p>It is recommended, though not required, that Actor 0x00 be reserved for the keeper of the game state.</p>
+<h2 id="an-action">AN: Action</h2>
+<ul>
+<li>Size: 4 bytes</li>
+<li>Acceptable Values: 0x00000000 - 0xFFFFFFFF</li>
+</ul>
+<p>An Action is a game event taken by an Actor. Like the definition of an Actor, Actions are left intentionally vague. They
+can communicate game state (though this is discouraged) or game actions. </p>
+<h2 id="ac1-ac2-action-condition-1-and-2">AC1, AC2: Action Condition 1 and 2</h2>
+<ul>
+<li>Size: 4 bytes each</li>
+<li>Acceptable Values: 0x00000000 - 0xFFFFFFFF</li>
+<li>Optional</li>
+</ul>
+<p>Action Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an 
+Action does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.</p>
+<p>If the data associated with an Action would exceed 8 bytes, use an <strong>ActionExt</strong> Message, which sends arbitrary data in
+a following <strong>Data</strong> Message. </p>
+<h2 id="dat-action-data">DAT : Action Data</h2>
+<ul>
+<li>Size: User-defined</li>
+<li>Acceptable Values: User-defined</li>
+</ul>
+<p>Action Data makes up the primary content of a <strong>Data</strong> Message. Its purpose is to communicate data which is too large to
+fit in a standard <strong>Action</strong> Message. </p>
+<h2 id="siz-data-size">SIZ: Data Size</h2>
+<ul>
+<li>Size: 1 byte</li>
+<li>Acceptable Values: 0x00 - 0xFF</li>
+</ul>
+<p>Data Size specifies the length, in bytes, of Action Data attached to a <strong>Data</strong> Message.</p>
+<h2 id="pmsg-parent-message">PMSG: Parent Message</h2>
+<ul>
+<li>Size: 4 bytes</li>
+<li>Acceptable Values: 0x00000000 - 0xFFFFFFFF</li>
+</ul>
+<p>Parent Message is used by <strong>Data</strong> or <strong>Ack</strong> Messages to express the Message ID with which they are associated. A 
+<strong>Data</strong> or <strong>Ack</strong> Message must have Message IDs of their own.</p></div>
+            
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script>var base_url = '..';</script>
+        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+        <script src="../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

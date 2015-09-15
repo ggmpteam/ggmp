@@ -1,0 +1,94 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Introduction to the GGMP\n\n\nThe Generic Gameserver Messaging Protocol, or GGMP, is a messaging protocol that sits atop UDP. The protocol is designed\nfrom the ground up to send Messages between game servers and clients. Messages are designed to contain easily decodable\ninformation about updates to game state.\n\n\nGoals for the proposed protocol are:\n\n\n\n\nLightweight: Exactly as much data as needed and no more.\n\n\nSelf-contained: Transmit as much information about an Action in one Message as possible\n\n\nEfficient: Small packet size, in pure bytes for ease of server and client-side processing.\n\n\nResilient: A lost or malformed packet will be handled by the server, and is not breaking.\n\n\nFlexible: Usable for anything from a simple command-line game to a full-blown RTS.\n\n\n\n\nNon-goals are:\n\n\n\n\nData integrity: Following a common design pattern among games, dropped packets are not game breaking.", 
+            "title": "Introduction"
+        }, 
+        {
+            "location": "/#introduction-to-the-ggmp", 
+            "text": "The Generic Gameserver Messaging Protocol, or GGMP, is a messaging protocol that sits atop UDP. The protocol is designed\nfrom the ground up to send Messages between game servers and clients. Messages are designed to contain easily decodable\ninformation about updates to game state.  Goals for the proposed protocol are:   Lightweight: Exactly as much data as needed and no more.  Self-contained: Transmit as much information about an Action in one Message as possible  Efficient: Small packet size, in pure bytes for ease of server and client-side processing.  Resilient: A lost or malformed packet will be handled by the server, and is not breaking.  Flexible: Usable for anything from a simple command-line game to a full-blown RTS.   Non-goals are:   Data integrity: Following a common design pattern among games, dropped packets are not game breaking.", 
+            "title": "Introduction to the GGMP"
+        }, 
+        {
+            "location": "/components/", 
+            "text": "GGMP Message Components\n\n\nGGMP Messages are comprised of \nComponents\n, which describe the Message format itself, as well as Client ID, Actors and\n Actions, and so on. Not every Component is included in every Message; the Header dictates the \nMessage Type\n, which \nfurther dictates the Components and structure of the Message.\n\n\nHEAD: Header\n\n\n\n\nSize: 1 byte\n\n\nAcceptable Values: 0x00 - 0xFF\n\n\n\n\nThe Header dictates the Message Type. The following Message Types are currently available in GGMP. For information on \ntheir structure, see \nMessage Types\n\n\n\n\n\n\n\n\nHeader Value\n\n\nType\n\n\nDescription\n\n\nSize (bytes)\n\n\n\n\n\n\n\n\n\n\n0x00\n\n\nAction\n\n\nLong-form Action with Conditions, Message IDs\n\n\n18\n\n\n\n\n\n\n0x01\n\n\nActionAck\n\n\nLong-form Action as above, but require ACK\n\n\n18\n\n\n\n\n\n\n0x02\n\n\nAction Short\n\n\nLightweight Action with reduced value ranges\n\n\n8\n\n\n\n\n\n\n0x04\n\n\nAction Ext\n\n\nAction with additional data contained in a following message\n\n\n?\n\n\n\n\n\n\n0x06\n\n\nData\n\n\nData corresponding to a previous message\n\n\n?\n\n\n\n\n\n\n0xFE\n\n\nClient Assign\n\n\nUsed by server to assign a Client ID to a connected Client\n\n\n?\n\n\n\n\n\n\n0xFF\n\n\nAcknowledge\n\n\nACK a previous message which has requested it\n\n\n?\n\n\n\n\n\n\n\n\nAn important note: Any Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value of the Header \nby 0x01. In the table above, this property is explicitly written for the Action message type, however this property is \nimplemented for all Message Types in the above range, and is simply implied in much of this documentation.\n\n\nCL: Client ID\n\n\n\n\nSize: 3 bytes \n\n\nAcceptable Values: 0x000001 - 0xFFFFFF for Clients, 0x00 for Server\n\n\n\n\nThe Client ID is a value assigned to a Client by the Game Server. It is useful for tracking origin of a Message as it is\nprocessed by the Game Server. Additionally, it provides a way, if desired, to delineate Actors based on Client. A game \ncould choose to have all actors 'owned' by a particular client, providing a number of benefits, not the least of which \nis an additional layer of security against message spoofing.\n\n\nThe Client ID 0x00 is reserved for the Game Server itself. Further Client IDs should begin at 0x01 and increment by 0x01\nfor each new client assigned.\n\n\nMID: Message ID\n\n\n\n\nSize: 4 bytes\n\n\nAcceptable Values: 0x00000000 - 0xFFFFFFFFF\n\n\nOptional\n\n\n\n\nThe Message ID is an optional Component that can assist with certain features in advanced GGMP implementations. For \nexample, any game requiring the use of ACKs must implement Message IDs. Additionally, Message IDs can be used to estimate\npacket loss, ensure correct ordering of packets, etc.\n\n\nMessage IDs should be unique per client per message. That is to say: no one Client should send multiple Messages with \nthe same ID. However, Messages from \ndifferent\n clients can share IDs, and in fact this is expected.\n\n\nEach client should begin counting their Messages at 0x00000000 and increment them by 0x01 with every message sent.\n\n\nIf a game does not choose to implement Message IDs, the byte ranges designated for Message IDs should be cleared to \n 0x00000000.\n\n\nAR: Actor\n\n\n\n\nSize: 4 bytes\n\n\nAcceptable Values: 0x00000000 - 0xFFFFFFFF\n\n\n\n\nThe Actor is any game entity which takes an Action. The assignment, interpretation, and implementation of these actors \nis left entirely to the programmer. Actors can correspond to individual players, units controlled by players, the game \nstate itself, etc.\n\n\nIt is recommended, though not required, that Actor 0x00 be reserved for the keeper of the game state.\n\n\nAN: Action\n\n\n\n\nSize: 4 bytes\n\n\nAcceptable Values: 0x00000000 - 0xFFFFFFFF\n\n\n\n\nAn Action is a game event taken by an Actor. Like the definition of an Actor, Actions are left intentionally vague. They\ncan communicate game state (though this is discouraged) or game actions. \n\n\nAC1, AC2: Action Condition 1 and 2\n\n\n\n\nSize: 4 bytes each\n\n\nAcceptable Values: 0x00000000 - 0xFFFFFFFF\n\n\nOptional\n\n\n\n\nAction Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an \nAction does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.\n\n\nIf the data associated with an Action would exceed 8 bytes, use an \nActionExt\n Message, which sends arbitrary data in\na following \nData\n Message. \n\n\nDAT : Action Data\n\n\n\n\nSize: User-defined\n\n\nAcceptable Values: User-defined\n\n\n\n\nAction Data makes up the primary content of a \nData\n Message. Its purpose is to communicate data which is too large to\nfit in a standard \nAction\n Message. \n\n\nSIZ: Data Size\n\n\n\n\nSize: 1 byte\n\n\nAcceptable Values: 0x00 - 0xFF\n\n\n\n\nData Size specifies the length, in bytes, of Action Data attached to a \nData\n Message.\n\n\nPMSG: Parent Message\n\n\n\n\nSize: 4 bytes\n\n\nAcceptable Values: 0x00000000 - 0xFFFFFFFF\n\n\n\n\nParent Message is used by \nData\n or \nAck\n Messages to express the Message ID with which they are associated. A \n\nData\n or \nAck\n Message must have Message IDs of their own.", 
+            "title": "Components"
+        }, 
+        {
+            "location": "/components/#ggmp-message-components", 
+            "text": "GGMP Messages are comprised of  Components , which describe the Message format itself, as well as Client ID, Actors and\n Actions, and so on. Not every Component is included in every Message; the Header dictates the  Message Type , which \nfurther dictates the Components and structure of the Message.", 
+            "title": "GGMP Message Components"
+        }, 
+        {
+            "location": "/components/#head-header", 
+            "text": "Size: 1 byte  Acceptable Values: 0x00 - 0xFF   The Header dictates the Message Type. The following Message Types are currently available in GGMP. For information on \ntheir structure, see  Message Types     Header Value  Type  Description  Size (bytes)      0x00  Action  Long-form Action with Conditions, Message IDs  18    0x01  ActionAck  Long-form Action as above, but require ACK  18    0x02  Action Short  Lightweight Action with reduced value ranges  8    0x04  Action Ext  Action with additional data contained in a following message  ?    0x06  Data  Data corresponding to a previous message  ?    0xFE  Client Assign  Used by server to assign a Client ID to a connected Client  ?    0xFF  Acknowledge  ACK a previous message which has requested it  ?     An important note: Any Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value of the Header \nby 0x01. In the table above, this property is explicitly written for the Action message type, however this property is \nimplemented for all Message Types in the above range, and is simply implied in much of this documentation.", 
+            "title": "HEAD: Header"
+        }, 
+        {
+            "location": "/components/#cl-client-id", 
+            "text": "Size: 3 bytes   Acceptable Values: 0x000001 - 0xFFFFFF for Clients, 0x00 for Server   The Client ID is a value assigned to a Client by the Game Server. It is useful for tracking origin of a Message as it is\nprocessed by the Game Server. Additionally, it provides a way, if desired, to delineate Actors based on Client. A game \ncould choose to have all actors 'owned' by a particular client, providing a number of benefits, not the least of which \nis an additional layer of security against message spoofing.  The Client ID 0x00 is reserved for the Game Server itself. Further Client IDs should begin at 0x01 and increment by 0x01\nfor each new client assigned.", 
+            "title": "CL: Client ID"
+        }, 
+        {
+            "location": "/components/#mid-message-id", 
+            "text": "Size: 4 bytes  Acceptable Values: 0x00000000 - 0xFFFFFFFFF  Optional   The Message ID is an optional Component that can assist with certain features in advanced GGMP implementations. For \nexample, any game requiring the use of ACKs must implement Message IDs. Additionally, Message IDs can be used to estimate\npacket loss, ensure correct ordering of packets, etc.  Message IDs should be unique per client per message. That is to say: no one Client should send multiple Messages with \nthe same ID. However, Messages from  different  clients can share IDs, and in fact this is expected.  Each client should begin counting their Messages at 0x00000000 and increment them by 0x01 with every message sent.  If a game does not choose to implement Message IDs, the byte ranges designated for Message IDs should be cleared to \n 0x00000000.", 
+            "title": "MID: Message ID"
+        }, 
+        {
+            "location": "/components/#ar-actor", 
+            "text": "Size: 4 bytes  Acceptable Values: 0x00000000 - 0xFFFFFFFF   The Actor is any game entity which takes an Action. The assignment, interpretation, and implementation of these actors \nis left entirely to the programmer. Actors can correspond to individual players, units controlled by players, the game \nstate itself, etc.  It is recommended, though not required, that Actor 0x00 be reserved for the keeper of the game state.", 
+            "title": "AR: Actor"
+        }, 
+        {
+            "location": "/components/#an-action", 
+            "text": "Size: 4 bytes  Acceptable Values: 0x00000000 - 0xFFFFFFFF   An Action is a game event taken by an Actor. Like the definition of an Actor, Actions are left intentionally vague. They\ncan communicate game state (though this is discouraged) or game actions.", 
+            "title": "AN: Action"
+        }, 
+        {
+            "location": "/components/#ac1-ac2-action-condition-1-and-2", 
+            "text": "Size: 4 bytes each  Acceptable Values: 0x00000000 - 0xFFFFFFFF  Optional   Action Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an \nAction does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.  If the data associated with an Action would exceed 8 bytes, use an  ActionExt  Message, which sends arbitrary data in\na following  Data  Message.", 
+            "title": "AC1, AC2: Action Condition 1 and 2"
+        }, 
+        {
+            "location": "/components/#dat-action-data", 
+            "text": "Size: User-defined  Acceptable Values: User-defined   Action Data makes up the primary content of a  Data  Message. Its purpose is to communicate data which is too large to\nfit in a standard  Action  Message.", 
+            "title": "DAT : Action Data"
+        }, 
+        {
+            "location": "/components/#siz-data-size", 
+            "text": "Size: 1 byte  Acceptable Values: 0x00 - 0xFF   Data Size specifies the length, in bytes, of Action Data attached to a  Data  Message.", 
+            "title": "SIZ: Data Size"
+        }, 
+        {
+            "location": "/components/#pmsg-parent-message", 
+            "text": "Size: 4 bytes  Acceptable Values: 0x00000000 - 0xFFFFFFFF   Parent Message is used by  Data  or  Ack  Messages to express the Message ID with which they are associated. A  Data  or  Ack  Message must have Message IDs of their own.", 
+            "title": "PMSG: Parent Message"
+        }, 
+        {
+            "location": "/message-types/", 
+            "text": "Message Types\n\n\nGGMP provides a number of various \nMessage Types\n for a variety of use cases related to game client and server\n programming. Many of these types are designed to be as flexible as possible. GGMP stands for \nGeneric\n Gameserver \n Messaging Protocol, after all. It's up to you, the game developer to determine what Actor 45 is, what Actions he can \n take, and what to do with all that information. Is it critical that the server receive your data? Use an \nAck\n variant\n of your Message and your client library will ensure it's received. Don't need support for over 4 billion actors? Use \n \nActionShort\n Messages for your game instead. \n\n\nReq-Ack vs. No-Ack\n\n\nMessage Types ranging from 0x00 to 0xEF have both Req-Ack and No-Ack variants. For the sake of conciseness and brevity, only\ntheir No-Ack variants are listed here. However, since Req-Ack vs. No-Ack doesn't change the structure of a message, converting\nbetween them is easy: Simply increment the Header by 0x01, and you have a Req-Ack version of that message. For example, the \nHeader value for \nAction, No-Ack\n is 0x00. The corresponding Header for \nAction, Req-Ack\n is 0x01. \n\n\nIn this documentation, we will explicitly denote \nReq-Ack\n when referring to such a variant. If no variant is specified, \nit can safely be inferred that the Message in question is \nNo-Ack\n.\n\n\n0x00 - 0xEF: Game State Message Types\n\n\nThese Message Types make up the core of communication over GGMP. \n\n\n0x00 - Action\n\n\nThe bread-and-butter message of GGMP, a game Action with Actors and Conditions.\n\n\nBytes\n\n\n\n\n\n\n\n\n19\n\n\n18\n\n\n17\n\n\n16\n\n\n15\n\n\n14\n\n\n13\n\n\n12\n\n\n11\n\n\n10\n\n\n9\n\n\n8\n\n\n7\n\n\n6\n\n\n5\n\n\n4\n\n\n3\n\n\n2\n\n\n1\n\n\n0\n\n\n\n\n\n\n\n\n\n\nHEAD\n\n\nCL\n\n\nCL\n\n\nCL\n\n\nMID\n\n\nMID\n\n\nMID\n\n\nAR\n\n\nAR\n\n\nAR\n\n\nAN\n\n\nAN\n\n\nAC1\n\n\nAC1\n\n\nAC1\n\n\nAC1\n\n\nAC2\n\n\nAC2\n\n\nAC2\n\n\nAC2\n\n\n\n\n\n\n\n\nComponents\n\n\n\n\nHead \n\n\nClient ID \n\n\nMessage ID \n\n\nActor ID \n\n\nAction ID \n\n\nAction Condition 1 \n\n\nAction Condition 2", 
+            "title": "Message Types"
+        }, 
+        {
+            "location": "/message-types/#message-types", 
+            "text": "GGMP provides a number of various  Message Types  for a variety of use cases related to game client and server\n programming. Many of these types are designed to be as flexible as possible. GGMP stands for  Generic  Gameserver \n Messaging Protocol, after all. It's up to you, the game developer to determine what Actor 45 is, what Actions he can \n take, and what to do with all that information. Is it critical that the server receive your data? Use an  Ack  variant\n of your Message and your client library will ensure it's received. Don't need support for over 4 billion actors? Use \n  ActionShort  Messages for your game instead.", 
+            "title": "Message Types"
+        }, 
+        {
+            "location": "/message-types/#req-ack-vs-no-ack", 
+            "text": "Message Types ranging from 0x00 to 0xEF have both Req-Ack and No-Ack variants. For the sake of conciseness and brevity, only\ntheir No-Ack variants are listed here. However, since Req-Ack vs. No-Ack doesn't change the structure of a message, converting\nbetween them is easy: Simply increment the Header by 0x01, and you have a Req-Ack version of that message. For example, the \nHeader value for  Action, No-Ack  is 0x00. The corresponding Header for  Action, Req-Ack  is 0x01.   In this documentation, we will explicitly denote  Req-Ack  when referring to such a variant. If no variant is specified, \nit can safely be inferred that the Message in question is  No-Ack .", 
+            "title": "Req-Ack vs. No-Ack"
+        }, 
+        {
+            "location": "/message-types/#0x00-0xef-game-state-message-types", 
+            "text": "These Message Types make up the core of communication over GGMP.", 
+            "title": "0x00 - 0xEF: Game State Message Types"
+        }, 
+        {
+            "location": "/message-types/#0x00-action", 
+            "text": "The bread-and-butter message of GGMP, a game Action with Actors and Conditions.  Bytes     19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0      HEAD  CL  CL  CL  MID  MID  MID  AR  AR  AR  AN  AN  AC1  AC1  AC1  AC1  AC2  AC2  AC2  AC2     Components   Head   Client ID   Message ID   Actor ID   Action ID   Action Condition 1   Action Condition 2", 
+            "title": "0x00 - Action"
+        }
+    ]
+}
