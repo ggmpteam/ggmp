@@ -1,0 +1,6 @@
+site_name: GGMP Documentation
+pages:
+- Introduction: 'index.md'
+- Components: 'components.md'
+- Message Types: 'message-types.md'
+theme: readthedocs
