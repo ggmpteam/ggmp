@@ -78,6 +78,19 @@
                 
                     <li><a class="toctree-l4" href="#0x00-action">0x00 - Action</a></li>
                 
+                    <li><a class="toctree-l4" href="#0x02-actionshort">0x02 - ActionShort</a></li>
+                
+                    <li><a class="toctree-l4" href="#0x04-actionextended">0x04 - ActionExtended</a></li>
+                
+                    <li><a class="toctree-l4" href="#0x0e-data">0x0E - Data</a></li>
+                
+                    <li><a class="toctree-l4" href="#0x12-dataend">0x12 - DataEnd</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</a></li>
+                
+                    <li><a class="toctree-l4" href="#0xff-ack">0xFF - Ack</a></li>
+                
             
             </ul>
         
@@ -194,6 +207,224 @@ it can safely be inferred that the Message in question is <strong>No-Ack</strong
 <li>Action ID </li>
 <li>Action Condition 1 </li>
 <li>Action Condition 2 </li>
+</ul>
+<h2 id="0x02-actionshort">0x02 - ActionShort</h2>
+<p>A micro-sized version of an Action. Ideal for demos, tutorials, and ultra-lightweight games.</p>
+<h4 id="bytes_1">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>AR</td>
+<td>AN</td>
+<td>AC1</td>
+<td>AC2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_1">Components</h4>
+<ul>
+<li>Head </li>
+<li>Client ID </li>
+<li>Message ID </li>
+<li>Actor ID </li>
+<li>Action ID </li>
+<li>Action Condition 1 </li>
+<li>Action Condition 2 </li>
+</ul>
+<h2 id="0x04-actionextended">0x04 - ActionExtended</h2>
+<p>An Action which will be followed by additional <strong>Data</strong> or <strong>DataEnd</strong> messages. Identical in structure to <code>0x00</code>.</p>
+<p>If an ActionExtended Message requires only one additional Data Message, that Message should be <code>0x12</code> <strong>DataEnd</strong>. <code>0x12</code>
+allows the transmission of data, but also indicates to the receiver that no more data attached to this message should be
+expected. </p>
+<h4 id="bytes_2">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>19</th>
+<th>18</th>
+<th>17</th>
+<th>16</th>
+<th>15</th>
+<th>14</th>
+<th>13</th>
+<th>12</th>
+<th>11</th>
+<th>10</th>
+<th>9</th>
+<th>8</th>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>AR</td>
+<td>AR</td>
+<td>AR</td>
+<td>AN</td>
+<td>AN</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_2">Components</h4>
+<ul>
+<li>Head </li>
+<li>Client ID </li>
+<li>Message ID </li>
+<li>Actor ID </li>
+<li>Action ID </li>
+<li>Action Condition 1 </li>
+<li>Action Condition 2  </li>
+</ul>
+<h2 id="0x0e-data">0x0E - Data</h2>
+<p>Data attached to an <strong>ActionExtended</strong> Message. Data Messages should not be sent without a preceding ActionExtended 
+Message. If the transfer of such 'orphaned' data is required, use <code>0x10</code> - <strong>Raw Data</strong>.</p>
+<p>The Data message is <em>n + 11</em> bytes long, where <em>n</em> = the size of the data attached. Attached data is limited to 255 bytes.</p>
+<h4 id="bytes_3">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>n + 10</th>
+<th>n + 9</th>
+<th>n + 8</th>
+<th>n + 7</th>
+<th>n + 6</th>
+<th>n + 5</th>
+<th>n + 4</th>
+<th>n + 3</th>
+<th>n + 2</th>
+<th>n + 1</th>
+<th>n</th>
+<th>n-1</th>
+<th>...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>PMSG</td>
+<td>PMSG</td>
+<td>PMSG</td>
+<td>SIZ</td>
+<td>DAT</td>
+<td>DAT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_3">Components</h4>
+<ul>
+<li>Head</li>
+<li>Client ID</li>
+<li>Message ID</li>
+<li>Parent Message</li>
+<li>Size</li>
+<li>Data</li>
+</ul>
+<h2 id="0x12-dataend">0x12 - DataEnd</h2>
+<p>Identical in structure to <code>0x0E</code> - <strong>Data</strong>. However, this Message Type indicates that this is the final Data Message
+attached to its associated Parent Message. Therefore, every <code>0x04</code> <strong>ActionExtended</strong> Message should be followed by any 
+number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <code>0x12</code> <strong>DataEnd</strong> Message.</p>
+<h4 id="bytes_4">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>n + 10</th>
+<th>n + 9</th>
+<th>n + 8</th>
+<th>n + 7</th>
+<th>n + 6</th>
+<th>n + 5</th>
+<th>n + 4</th>
+<th>n + 3</th>
+<th>n + 2</th>
+<th>n + 1</th>
+<th>n</th>
+<th>n-1</th>
+<th>...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>PMSG</td>
+<td>PMSG</td>
+<td>PMSG</td>
+<td>SIZ</td>
+<td>DAT</td>
+<td>DAT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_4">Components</h4>
+<ul>
+<li>Head</li>
+<li>Client ID</li>
+<li>Message ID</li>
+<li>Parent Message</li>
+<li>Size</li>
+<li>Data</li>
+</ul>
+<h1 id="0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</h1>
+<p>These Messages communicate information about the state of the client, server, and connection.</p>
+<h2 id="0xff-ack">0xFF - Ack</h2>
+<p>Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
+ messages never require further Acks. See <a href="">Ack Behavior</a> for details on GGMP's Ack behavior.</p>
+<h4 id="bytes_5">Bytes</h4>
+<p>|HEAD|CL|CL|CL|PMSG|PMSG|PMSG|</p>
+<h4 id="components_5">Components</h4>
+<ul>
+<li>Head</li>
+<li>Client ID</li>
+<li>Parent Message</li>
 </ul>
               
             </div>
