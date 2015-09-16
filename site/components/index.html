@@ -152,30 +152,36 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 <td>0x00</td>
 <td>Action</td>
 <td>Long-form Action with Conditions, Message IDs</td>
-<td>18</td>
+<td>20</td>
 </tr>
 <tr>
 <td>0x01</td>
 <td>ActionAck</td>
 <td>Long-form Action as above, but require ACK</td>
-<td>18</td>
+<td>20</td>
 </tr>
 <tr>
 <td>0x02</td>
-<td>Action Short</td>
+<td>ActionShort</td>
 <td>Lightweight Action with reduced value ranges</td>
 <td>8</td>
 </tr>
 <tr>
 <td>0x04</td>
-<td>Action Ext</td>
+<td>ActionExtended</td>
 <td>Action with additional data contained in a following message</td>
+<td>20</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Data</td>
+<td>Data corresponding to a previous message</td>
 <td>?</td>
 </tr>
 <tr>
-<td>0x06</td>
-<td>Data</td>
-<td>Data corresponding to a previous message</td>
+<td>0x12</td>
+<td>DataEnd</td>
+<td>Final Data corresponding to a previous message</td>
 <td>?</td>
 </tr>
 <tr>
@@ -186,15 +192,15 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 </tr>
 <tr>
 <td>0xFF</td>
-<td>Acknowledge</td>
-<td>ACK a previous message which has requested it</td>
+<td>Ack</td>
+<td>Acknowledge a previous message which has requested it</td>
 <td>?</td>
 </tr>
 </tbody>
 </table>
-<p>An important note: Any Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value of the Header 
-by 0x01. In the table above, this property is explicitly written for the Action message type, however this property is 
-implemented for all Message Types in the above range, and is simply implied in much of this documentation.</p>
+<p>An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value 
+of the Header by 0x01. In the table above, this property is explicitly written for the Action message type, however this
+property is implemented for all Message Types in the above range, and is simply implied in much of this documentation.</p>
 <h2 id="cl-client-id">CL: Client ID</h2>
 <ul>
 <li>Size: 3 bytes </li>
@@ -245,7 +251,7 @@ can communicate game state (though this is discouraged) or game actions. </p>
 <p>Action Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an 
 Action does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.</p>
 <p>If the data associated with an Action would exceed 8 bytes, use an <strong>ActionExt</strong> Message, which sends arbitrary data in
-a following <strong>Data</strong> Message. </p>
+a following <strong>Data</strong> or <strong>DataEnd</strong> Message. </p>
 <h2 id="dat-action-data">DAT : Action Data</h2>
 <ul>
 <li>Size: User-defined</li>
@@ -258,14 +264,14 @@ fit in a standard <strong>Action</strong> Message. </p>
 <li>Size: 1 byte</li>
 <li>Acceptable Values: 0x00 - 0xFF</li>
 </ul>
-<p>Data Size specifies the length, in bytes, of Action Data attached to a <strong>Data</strong> Message.</p>
+<p>Data Size specifies the length, in bytes, of Action Data attached to a <strong>Data</strong> or <strong>DataEnd</strong> Message.</p>
 <h2 id="pmsg-parent-message">PMSG: Parent Message</h2>
 <ul>
 <li>Size: 4 bytes</li>
 <li>Acceptable Values: 0x00000000 - 0xFFFFFFFF</li>
 </ul>
-<p>Parent Message is used by <strong>Data</strong> or <strong>Ack</strong> Messages to express the Message ID with which they are associated. A 
-<strong>Data</strong> or <strong>Ack</strong> Message must have Message IDs of their own.</p>
+<p>Parent Message is used by <strong>Data</strong>/<strong>DataEnd</strong> or <strong>Ack</strong> Messages to express the Message ID with which they are associated. A 
+<strong>Data</strong>/<strong>DataEnd</strong> Message must additionally have a Message ID of its own.  </p>
               
             </div>
           </div>

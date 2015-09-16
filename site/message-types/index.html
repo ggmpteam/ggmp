@@ -419,7 +419,30 @@ number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <cod
 <p>Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
  messages never require further Acks. See <a href="">Ack Behavior</a> for details on GGMP's Ack behavior.</p>
 <h4 id="bytes_5">Bytes</h4>
-<p>|HEAD|CL|CL|CL|PMSG|PMSG|PMSG|</p>
+<table>
+<thead>
+<tr>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>PMSG</td>
+<td>PMSG</td>
+<td>PMSG</td>
+</tr>
+</tbody>
+</table>
 <h4 id="components_5">Components</h4>
 <ul>
 <li>Head</li>
