@@ -14,17 +14,18 @@ their structure, see [Message Types](message-types.md)
 
 |Header Value|Type|Description|Size (bytes)|
 |---|---|---|---|
-|0x00|Action|Long-form Action with Conditions, Message IDs|18|
-|0x01|ActionAck|Long-form Action as above, but require ACK|18|
-|0x02|Action Short|Lightweight Action with reduced value ranges|8|
-|0x04|Action Ext|Action with additional data contained in a following message|?|
-|0x06|Data|Data corresponding to a previous message|?|
+|0x00|Action|Long-form Action with Conditions, Message IDs|20|
+|0x01|ActionAck|Long-form Action as above, but require ACK|20|
+|0x02|ActionShort|Lightweight Action with reduced value ranges|8|
+|0x04|ActionExtended|Action with additional data contained in a following message|20|
+|0x0E|Data|Data corresponding to a previous message|?|
+|0x12|DataEnd|Final Data corresponding to a previous message|?|
 |0xFE|Client Assign|Used by server to assign a Client ID to a connected Client|?|
-|0xFF|Acknowledge|ACK a previous message which has requested it|?|
+|0xFF|Ack|Acknowledge a previous message which has requested it|?|
 
-An important note: Any Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value of the Header 
-by 0x01. In the table above, this property is explicitly written for the Action message type, however this property is 
-implemented for all Message Types in the above range, and is simply implied in much of this documentation.
+An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value 
+of the Header by 0x01. In the table above, this property is explicitly written for the Action message type, however this
+property is implemented for all Message Types in the above range, and is simply implied in much of this documentation.
 
 ## CL: Client ID
 
@@ -83,7 +84,7 @@ Action Conditions act as parameters for Actions. They are used to attach data an
 Action does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.
 
 If the data associated with an Action would exceed 8 bytes, use an **ActionExt** Message, which sends arbitrary data in
-a following **Data** Message. 
+a following **Data** or **DataEnd** Message. 
  
 ## DAT : Action Data
 * Size: User-defined
@@ -96,13 +97,13 @@ fit in a standard **Action** Message.
 * Size: 1 byte
 * Acceptable Values: 0x00 - 0xFF
 
-Data Size specifies the length, in bytes, of Action Data attached to a **Data** Message.
+Data Size specifies the length, in bytes, of Action Data attached to a **Data** or **DataEnd** Message.
 
 ## PMSG: Parent Message
 * Size: 4 bytes
 * Acceptable Values: 0x00000000 - 0xFFFFFFFF
 
-Parent Message is used by **Data** or **Ack** Messages to express the Message ID with which they are associated. A 
-**Data** or **Ack** Message must have Message IDs of their own.
+Parent Message is used by **Data**/**DataEnd** or **Ack** Messages to express the Message ID with which they are associated. A 
+**Data**/**DataEnd** Message must additionally have a Message ID of its own.  
    
  
