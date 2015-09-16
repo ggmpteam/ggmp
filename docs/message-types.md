@@ -143,7 +143,8 @@ number of `0x0E` **Data** Messages, and exactly one `0x12` **DataEnd** Message.
  messages never require further Acks. See [Ack Behavior]() for details on GGMP's Ack behavior.
   
 #### Bytes
-
+|6|5|4|3|2|1|0|
+|---|---|---|---|---|---|---|
 |HEAD|CL|CL|CL|PMSG|PMSG|PMSG|
 
 #### Components
