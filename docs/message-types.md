@@ -21,6 +21,8 @@ it can safely be inferred that the Message in question is **No-Ack**.
 
 These Message Types make up the core of communication over GGMP. 
 
+
+
 ## 0x00 - Action
 The bread-and-butter message of GGMP, a game Action with Actors and Conditions.
 
@@ -41,4 +43,110 @@ The bread-and-butter message of GGMP, a game Action with Actors and Conditions.
 * Action Condition 2 
 
 
+
+## 0x02 - ActionShort
+A micro-sized version of an Action. Ideal for demos, tutorials, and ultra-lightweight games.
+
+#### Bytes
+
+|7  |6  |5  |4  |3  |2  |1  |0  |
+|---|---|---|---|---|---|---|---|
+|HEAD|CL|MID|MID|AR |AN |AC1|AC2|
+
+#### Components
+
+* Head 
+* Client ID 
+* Message ID 
+* Actor ID 
+* Action ID 
+* Action Condition 1 
+* Action Condition 2 
+
+
+
+## 0x04 - ActionExtended
+An Action which will be followed by additional **Data** or **DataEnd** messages. Identical in structure to `0x00`.
+
+If an ActionExtended Message requires only one additional Data Message, that Message should be `0x12` **DataEnd**. `0x12`
+allows the transmission of data, but also indicates to the receiver that no more data attached to this message should be
+expected. 
+
+#### Bytes
+
+|19 |18 |17 |16 |15 |14 |13 |12 |11 |10 |9  |8  |7  |6  |5  |4  |3  |2  |1  |0  |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|HEAD|CL|CL |CL |MID|MID|MID|AR |AR |AR |AN |AN |AC1|AC1|AC1|AC1|AC2|AC2|AC2|AC2|
+
+#### Components
+
+* Head 
+* Client ID 
+* Message ID 
+* Actor ID 
+* Action ID 
+* Action Condition 1 
+* Action Condition 2  
+
+
+
+## 0x0E - Data
+Data attached to an **ActionExtended** Message. Data Messages should not be sent without a preceding ActionExtended 
+Message. If the transfer of such 'orphaned' data is required, use `0x10` - **Raw Data**.
+
+The Data message is *n + 11* bytes long, where *n* = the size of the data attached. Attached data is limited to 255 bytes.
+
+#### Bytes
+
+|n + 10 |n + 9 |n + 8 |n + 7 |n + 6 |n + 5 |n + 4 |n + 3 |n + 2 |n + 1 |n |n-1 | ... |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|HEAD|CL|CL|CL|MID|MID|MID|PMSG|PMSG|PMSG|SIZ|DAT|DAT|
+
+#### Components
+
+* Head
+* Client ID
+* Message ID
+* Parent Message
+* Size
+* Data
+
+
+
+## 0x12 - DataEnd
+Identical in structure to `0x0E` - **Data**. However, this Message Type indicates that this is the final Data Message
+attached to its associated Parent Message. Therefore, every `0x04` **ActionExtended** Message should be followed by any 
+number of `0x0E` **Data** Messages, and exactly one `0x12` **DataEnd** Message.
+
+#### Bytes
+
+|n + 10 |n + 9 |n + 8 |n + 7 |n + 6 |n + 5 |n + 4 |n + 3 |n + 2 |n + 1 |n |n-1 | ... |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|HEAD|CL|CL|CL|MID|MID|MID|PMSG|PMSG|PMSG|SIZ|DAT|DAT|
+
+#### Components
+
+* Head
+* Client ID
+* Message ID
+* Parent Message
+* Size
+* Data
+
+
+# 0xF0 - 0xFF: Protocol State Message Types
  
+ These Messages communicate information about the state of the client, server, and connection.
+ 
+## 0xFF - Ack
+ Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
+ messages never require further Acks. See [Ack Behavior]() for details on GGMP's Ack behavior.
+  
+#### Bytes
+
+|HEAD|CL|CL|CL|PMSG|PMSG|PMSG|
+
+#### Components
+* Head
+* Client ID
+* Parent Message
