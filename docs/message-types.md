@@ -140,7 +140,7 @@ number of `0x0E` **Data** Messages, and exactly one `0x12` **DataEnd** Message.
  
 ## 0xFF - Ack
  Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
- messages never require further Acks. See [Ack Behavior]() for details on GGMP's Ack behavior.
+ messages never require further Acks. See [Ack Behavior](ack-behavior) for details on GGMP's Ack behavior.
   
 #### Bytes
 |6|5|4|3|2|1|0|
