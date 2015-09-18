@@ -4,5 +4,5 @@ pages:
 - Components: 'components.md'
 - Message Types: 'message-types.md'
 - Ack Behavior: 'ack-behavior.md'
-- Technical Specifications: - 'techspecs.md'
+- Technical Specifications: 'techspecs.md'
 theme: readthedocs
