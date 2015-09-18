@@ -1,0 +1,8 @@
+site_name: GGMP Documentation
+pages:
+- Introduction: 'index.md'
+- Components: 'components.md'
+- Message Types: 'message-types.md'
+- Ack Behavior: 'ack-behavior.md'
+- Technical Specifications: - 'techspecs.md'
+theme: readthedocs
