@@ -149,6 +149,21 @@
             "location": "/techspecs/#technical-specifications", 
             "text": "GGMP uses UDP port 12358.", 
             "title": "Technical Specifications"
+        }, 
+        {
+            "location": "/CHANGELOG/", 
+            "text": "CHANGELOG\n\n\nv0.1.0\n\n\n\n\n[PROTOCOL:GENERAL]\n Initial versioning, following Semantic Versioning practices.\n\n\n[DOC]\n Added changelog.", 
+            "title": "CHANGELOG"
+        }, 
+        {
+            "location": "/CHANGELOG/#changelog", 
+            "text": "", 
+            "title": "CHANGELOG"
+        }, 
+        {
+            "location": "/CHANGELOG/#v010", 
+            "text": "[PROTOCOL:GENERAL]  Initial versioning, following Semantic Versioning practices.  [DOC]  Added changelog.", 
+            "title": "v0.1.0"
         }
     ]
 }
