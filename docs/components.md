@@ -15,7 +15,7 @@ their structure, see [Message Types](message-types.md)
 |Header Value|Type|Description|Size (bytes)|
 |---|---|---|---|
 |0x00|Action|Long-form Action with Conditions, Message IDs|20|
-|0x01|ActionAck|Long-form Action as above, but require ACK|20|
+|0x01|ActionNoAck|Long-form Action as above, but don't require ACK|20|
 |0x02|ActionShort|Lightweight Action with reduced value ranges|8|
 |0x04|ActionExtended|Action with additional data contained in a following message|20|
 |0x0E|Data|Data corresponding to a previous message|?|
@@ -23,9 +23,10 @@ their structure, see [Message Types](message-types.md)
 |0xFE|Client Assign|Used by server to assign a Client ID to a connected Client|?|
 |0xFF|Ack|Acknowledge a previous message which has requested it|?|
 
-An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value 
-of the Header by 0x01. In the table above, this property is explicitly written for the Action message type, however this
-property is implemented for all Message Types in the above range, and is simply implied in much of this documentation.
+An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can opt not to 
+require an ACK by increasing the value of the Header by 0x01. In the table above, this property is explicitly written 
+for the Action message type, however this property is implemented for all Message Types in the above range, and is 
+simply implied in much of this documentation.
 
 ## CL: Client ID
 
@@ -44,19 +45,16 @@ for each new client assigned.
 
 * Size: 4 bytes
 * Acceptable Values: 0x00000000 - 0xFFFFFFFFF
-* Optional
 
-The Message ID is an optional Component that can assist with certain features in advanced GGMP implementations. For 
-example, any game requiring the use of ACKs must implement Message IDs. Additionally, Message IDs can be used to estimate
-packet loss, ensure correct ordering of packets, etc.
+The Message ID is a Component that can assist with certain features in advanced GGMP implementations. For 
+example, **Ack** and **Data** messages use Message IDs to refer to previous messages. 
+Additionally, Message IDs can be used to estimate packet loss, ensure correct ordering of packets, etc.
 
 Message IDs should be unique per client per message. That is to say: no one Client should send multiple Messages with 
 the same ID. However, Messages from *different* clients can share IDs, and in fact this is expected.
 
 Each client should begin counting their Messages at 0x00000000 and increment them by 0x01 with every message sent.
 
-If a game does not choose to implement Message IDs, the byte ranges designated for Message IDs should be cleared to 
- 0x00000000.
  
 ## AR: Actor
 * Size: 4 bytes
