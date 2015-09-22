@@ -10,18 +10,20 @@ further dictates the Components and structure of the Message.
 * Acceptable Values: 0x00 - 0xFF
 
 The Header dictates the Message Type. The following Message Types are currently available in GGMP. For information on 
-their structure, see [Message Types](message-types.md)
+their structure, see [Message Types](message-types.md).
 
 |Header Value|Type|Description|Size (bytes)|
 |---|---|---|---|
-|0x00|Action|Long-form Action with Conditions, Message IDs|20|
-|0x01|ActionNoAck|Long-form Action as above, but don't require ACK|20|
+|0x00|Action|Long-form Action with Conditions, Message IDs|24|
+|0x01|ActionNoAck|Long-form Action as above, but don't require ACK|24|
 |0x02|ActionShort|Lightweight Action with reduced value ranges|8|
-|0x04|ActionExtended|Action with additional data contained in a following message|20|
+|0x04|ActionExtended|Action with additional data contained in a following message|24|
 |0x0E|Data|Data corresponding to a previous message|?|
 |0x12|DataEnd|Final Data corresponding to a previous message|?|
+|0x14|ActionData|Action with Data and add'l Data to follow|?|
+|0x16|ActionDataEnd|Action with arbitrary Data|?|
 |0xFE|Client Assign|Used by server to assign a Client ID to a connected Client|?|
-|0xFF|Ack|Acknowledge a previous message which has requested it|?|
+|0xFF|Ack|Acknowledge a previous message which has requested it|8|
 
 An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can opt not to 
 require an ACK by increasing the value of the Header by 0x01. In the table above, this property is explicitly written 

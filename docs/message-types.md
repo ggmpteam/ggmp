@@ -157,6 +157,29 @@ data, and more importantly, signifies that the receiver should expect additional
 * Action Condition 2  
 
 
+## 0x16 - ActionDataEnd
+An Action with a self-contained Data Message. 
+
+This message acts as the combination of an **ActionExt** Message and a **DataEnd** Message. Unlike **ActionData**, this 
+message is entirely self-contained, and does not imply additional attached **Data** or **DataEnd** messages.
+
+#### Bytes
+
+|0  |1  |2  |3  |4  |5  |6  |7  |8  |9  |10 |11 |12 |13 |14 |15 |16 |17 |18 |19 |20 |21 |22 |23 |24 |25 |...|n  |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|HEAD|CL|CL |CL |MID|MID|MID|MID|AR |AR |AR |AR |AN |AN |AN |AN |AC1|AC1|AC1|AC1|AC2|AC2|AC2|AC2|SIZ|DAT|DAT|DAT|
+
+#### Components
+
+* Head 
+* Client ID 
+* Message ID 
+* Actor ID 
+* Action ID 
+* Action Condition 1 
+* Action Condition 2  
+
+
 # 0xF0 - 0xFF: Protocol State Message Types
  
  These Messages communicate information about the state of the client, server, and connection.
