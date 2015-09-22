@@ -1,8 +1,12 @@
 site_name: GGMP Documentation
+repo_url: https://github.com/bomattin/ggmp
+repo_name: GitHub
+
 pages:
 - Introduction: 'index.md'
 - Components: 'components.md'
 - Message Types: 'message-types.md'
 - Ack Behavior: 'ack-behavior.md'
 - Technical Specifications: 'techspecs.md'
+- CHANGELOG: 'CHANGELOG.md'
 theme: readthedocs
