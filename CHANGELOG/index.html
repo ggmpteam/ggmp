@@ -92,6 +92,10 @@
             
                 <li class="toctree-l3"><a href="#changelog">CHANGELOG</a></li>
                 
+                    <li><a class="toctree-l4" href="#future">Future</a></li>
+                
+                    <li><a class="toctree-l4" href="#v020">v0.2.0</a></li>
+                
                     <li><a class="toctree-l4" href="#v010">v0.1.0</a></li>
                 
             
@@ -137,6 +141,20 @@
             <div class="section">
               
                 <h1 id="changelog">CHANGELOG</h1>
+<h2 id="future">Future</h2>
+<ul>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Do <strong>ActionExt</strong> or <strong>ActionShort</strong> have a place anymore?</li>
+</ul>
+<h2 id="v020">v0.2.0</h2>
+<ul>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Made requiring acknowledgment the default behavior for all message types. </li>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Made Message ID use mandatory</li>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Added new <strong>ActionData</strong> message type, which acts as a combination of <strong>Action</strong> and <strong>DataEnd</strong></li>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Reversed byte ordering to a sensible arrangement. The Header should refer to the first byte sent
+and received, and so forth.</li>
+<li><strong>[PROTOCOL:MESSAGES]</strong> Extended the size of all non-head components to 4 bytes for ease of message parsing, except
+<strong>ActionShort</strong> messages.</li>
+</ul>
 <h2 id="v010">v0.1.0</h2>
 <ul>
 <li><strong>[PROTOCOL:GENERAL]</strong> Initial versioning, following Semantic Versioning practices.</li>

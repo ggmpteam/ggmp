@@ -162,7 +162,7 @@ further dictates the Components and structure of the Message.</p>
 <li>Acceptable Values: 0x00 - 0xFF</li>
 </ul>
 <p>The Header dictates the Message Type. The following Message Types are currently available in GGMP. For information on 
-their structure, see <a href="../message-types/">Message Types</a></p>
+their structure, see <a href="../message-types/">Message Types</a>.</p>
 <table>
 <thead>
 <tr>
@@ -177,13 +177,13 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 <td>0x00</td>
 <td>Action</td>
 <td>Long-form Action with Conditions, Message IDs</td>
-<td>20</td>
+<td>24</td>
 </tr>
 <tr>
 <td>0x01</td>
-<td>ActionAck</td>
-<td>Long-form Action as above, but require ACK</td>
-<td>20</td>
+<td>ActionNoAck</td>
+<td>Long-form Action as above, but don't require ACK</td>
+<td>24</td>
 </tr>
 <tr>
 <td>0x02</td>
@@ -195,7 +195,7 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 <td>0x04</td>
 <td>ActionExtended</td>
 <td>Action with additional data contained in a following message</td>
-<td>20</td>
+<td>24</td>
 </tr>
 <tr>
 <td>0x0E</td>
@@ -210,6 +210,18 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 <td>?</td>
 </tr>
 <tr>
+<td>0x14</td>
+<td>ActionData</td>
+<td>Action with Data and add'l Data to follow</td>
+<td>?</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>ActionDataEnd</td>
+<td>Action with arbitrary Data</td>
+<td>?</td>
+</tr>
+<tr>
 <td>0xFE</td>
 <td>Client Assign</td>
 <td>Used by server to assign a Client ID to a connected Client</td>
@@ -219,13 +231,14 @@ their structure, see <a href="../message-types/">Message Types</a></p>
 <td>0xFF</td>
 <td>Ack</td>
 <td>Acknowledge a previous message which has requested it</td>
-<td>?</td>
+<td>8</td>
 </tr>
 </tbody>
 </table>
-<p>An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can require an ACK by increasing the value 
-of the Header by 0x01. In the table above, this property is explicitly written for the Action message type, however this
-property is implemented for all Message Types in the above range, and is simply implied in much of this documentation.</p>
+<p>An important note: Any even-numbered Message Type in the range 0x00 to 0xEE can opt not to 
+require an ACK by increasing the value of the Header by 0x01. In the table above, this property is explicitly written 
+for the Action message type, however this property is implemented for all Message Types in the above range, and is 
+simply implied in much of this documentation.</p>
 <h2 id="cl-client-id">CL: Client ID</h2>
 <ul>
 <li>Size: 3 bytes </li>
@@ -241,16 +254,13 @@ for each new client assigned.</p>
 <ul>
 <li>Size: 4 bytes</li>
 <li>Acceptable Values: 0x00000000 - 0xFFFFFFFFF</li>
-<li>Optional</li>
 </ul>
-<p>The Message ID is an optional Component that can assist with certain features in advanced GGMP implementations. For 
-example, any game requiring the use of ACKs must implement Message IDs. Additionally, Message IDs can be used to estimate
-packet loss, ensure correct ordering of packets, etc.</p>
+<p>The Message ID is a Component that can assist with certain features in advanced GGMP implementations. For 
+example, <strong>Ack</strong> and <strong>Data</strong> messages use Message IDs to refer to previous messages. 
+Additionally, Message IDs can be used to estimate packet loss, ensure correct ordering of packets, etc.</p>
 <p>Message IDs should be unique per client per message. That is to say: no one Client should send multiple Messages with 
 the same ID. However, Messages from <em>different</em> clients can share IDs, and in fact this is expected.</p>
 <p>Each client should begin counting their Messages at 0x00000000 and increment them by 0x01 with every message sent.</p>
-<p>If a game does not choose to implement Message IDs, the byte ranges designated for Message IDs should be cleared to 
- 0x00000000.</p>
 <h2 id="ar-actor">AR: Actor</h2>
 <ul>
 <li>Size: 4 bytes</li>

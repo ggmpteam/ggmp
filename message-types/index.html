@@ -86,6 +86,10 @@
                 
                     <li><a class="toctree-l4" href="#0x12-dataend">0x12 - DataEnd</a></li>
                 
+                    <li><a class="toctree-l4" href="#0x14-actiondata">0x14 - ActionData</a></li>
+                
+                    <li><a class="toctree-l4" href="#0x16-actiondataend">0x16 - ActionDataEnd</a></li>
+                
             
                 <li class="toctree-l3"><a href="#0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</a></li>
                 
@@ -163,11 +167,11 @@
  <strong>ActionShort</strong> Messages for your game instead. </p>
 <h2 id="req-ack-vs-no-ack">Req-Ack vs. No-Ack</h2>
 <p>Message Types ranging from 0x00 to 0xEF have both Req-Ack and No-Ack variants. For the sake of conciseness and brevity, only
-their No-Ack variants are listed here. However, since Req-Ack vs. No-Ack doesn't change the structure of a message, converting
-between them is easy: Simply increment the Header by 0x01, and you have a Req-Ack version of that message. For example, the 
-Header value for <strong>Action, No-Ack</strong> is 0x00. The corresponding Header for <strong>Action, Req-Ack</strong> is 0x01. </p>
-<p>In this documentation, we will explicitly denote <strong>Req-Ack</strong> when referring to such a variant. If no variant is specified, 
-it can safely be inferred that the Message in question is <strong>No-Ack</strong>.</p>
+their Req-Ack variants are listed here. However, since Req-Ack vs. No-Ack doesn't change the structure of a message, converting
+between them is easy: Simply increment the Header by 0x01, and you have the No-Ack version of that message. For example, the 
+Header value for <strong>Action, Req-Ack</strong> is 0x00. The corresponding Header for <strong>Action, No-Ack</strong> is 0x01. </p>
+<p>In this documentation, we will explicitly denote <strong>No-Ack</strong> when referring to such a variant. If no variant is specified, 
+it can safely be inferred that the Message in question is <strong>Req-Ack</strong>.</p>
 <h1 id="0x00-0xef-game-state-message-types">0x00 - 0xEF: Game State Message Types</h1>
 <p>These Message Types make up the core of communication over GGMP. </p>
 <h2 id="0x00-action">0x00 - Action</h2>
@@ -176,26 +180,30 @@ it can safely be inferred that the Message in question is <strong>No-Ack</strong
 <table>
 <thead>
 <tr>
-<th>19</th>
-<th>18</th>
-<th>17</th>
-<th>16</th>
-<th>15</th>
-<th>14</th>
-<th>13</th>
-<th>12</th>
-<th>11</th>
-<th>10</th>
-<th>9</th>
-<th>8</th>
-<th>7</th>
-<th>6</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
 <th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+<th>16</th>
+<th>17</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>21</th>
+<th>22</th>
+<th>23</th>
 </tr>
 </thead>
 <tbody>
@@ -207,9 +215,13 @@ it can safely be inferred that the Message in question is <strong>No-Ack</strong
 <td>MID</td>
 <td>MID</td>
 <td>MID</td>
+<td>MID</td>
 <td>AR</td>
 <td>AR</td>
 <td>AR</td>
+<td>AR</td>
+<td>AN</td>
+<td>AN</td>
 <td>AN</td>
 <td>AN</td>
 <td>AC1</td>
@@ -239,14 +251,14 @@ it can safely be inferred that the Message in question is <strong>No-Ack</strong
 <table>
 <thead>
 <tr>
-<th>7</th>
-<th>6</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
 <th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
 </tr>
 </thead>
 <tbody>
@@ -281,26 +293,30 @@ expected. </p>
 <table>
 <thead>
 <tr>
-<th>19</th>
-<th>18</th>
-<th>17</th>
-<th>16</th>
-<th>15</th>
-<th>14</th>
-<th>13</th>
-<th>12</th>
-<th>11</th>
-<th>10</th>
-<th>9</th>
-<th>8</th>
-<th>7</th>
-<th>6</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
 <th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+<th>16</th>
+<th>17</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>21</th>
+<th>22</th>
+<th>23</th>
 </tr>
 </thead>
 <tbody>
@@ -312,9 +328,13 @@ expected. </p>
 <td>MID</td>
 <td>MID</td>
 <td>MID</td>
+<td>MID</td>
 <td>AR</td>
 <td>AR</td>
 <td>AR</td>
+<td>AR</td>
+<td>AN</td>
+<td>AN</td>
 <td>AN</td>
 <td>AN</td>
 <td>AC1</td>
@@ -346,19 +366,22 @@ Message. If the transfer of such 'orphaned' data is required, use <code>0x10</co
 <table>
 <thead>
 <tr>
-<th>n + 10</th>
-<th>n + 9</th>
-<th>n + 8</th>
-<th>n + 7</th>
-<th>n + 6</th>
-<th>n + 5</th>
-<th>n + 4</th>
-<th>n + 3</th>
-<th>n + 2</th>
-<th>n + 1</th>
-<th>n</th>
-<th>n-1</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
 <th>...</th>
+<th>n</th>
 </tr>
 </thead>
 <tbody>
@@ -370,10 +393,13 @@ Message. If the transfer of such 'orphaned' data is required, use <code>0x10</co
 <td>MID</td>
 <td>MID</td>
 <td>MID</td>
+<td>MID</td>
+<td>PMSG</td>
 <td>PMSG</td>
 <td>PMSG</td>
 <td>PMSG</td>
 <td>SIZ</td>
+<td>DAT</td>
 <td>DAT</td>
 <td>DAT</td>
 </tr>
@@ -396,19 +422,22 @@ number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <cod
 <table>
 <thead>
 <tr>
-<th>n + 10</th>
-<th>n + 9</th>
-<th>n + 8</th>
-<th>n + 7</th>
-<th>n + 6</th>
-<th>n + 5</th>
-<th>n + 4</th>
-<th>n + 3</th>
-<th>n + 2</th>
-<th>n + 1</th>
-<th>n</th>
-<th>n-1</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
 <th>...</th>
+<th>n</th>
 </tr>
 </thead>
 <tbody>
@@ -420,10 +449,13 @@ number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <cod
 <td>MID</td>
 <td>MID</td>
 <td>MID</td>
+<td>MID</td>
+<td>PMSG</td>
 <td>PMSG</td>
 <td>PMSG</td>
 <td>PMSG</td>
 <td>SIZ</td>
+<td>DAT</td>
 <td>DAT</td>
 <td>DAT</td>
 </tr>
@@ -438,22 +470,185 @@ number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <cod
 <li>Size</li>
 <li>Data</li>
 </ul>
+<h2 id="0x14-actiondata">0x14 - ActionData</h2>
+<p>An Action with a self-contained Data Message. </p>
+<p>This message acts as the combination of an <strong>ActionExt</strong> Message and a <strong>Data</strong> Message. It contains an initial stream of 
+data, and more importantly, signifies that the receiver should expect additional <strong>Data</strong> and <strong>DataEnd</strong> messages.</p>
+<h4 id="bytes_5">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+<th>16</th>
+<th>17</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>21</th>
+<th>22</th>
+<th>23</th>
+<th>24</th>
+<th>25</th>
+<th>...</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>AR</td>
+<td>AR</td>
+<td>AR</td>
+<td>AR</td>
+<td>AN</td>
+<td>AN</td>
+<td>AN</td>
+<td>AN</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>SIZ</td>
+<td>DAT</td>
+<td>DAT</td>
+<td>DAT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_5">Components</h4>
+<ul>
+<li>Head </li>
+<li>Client ID </li>
+<li>Message ID </li>
+<li>Actor ID </li>
+<li>Action ID </li>
+<li>Action Condition 1 </li>
+<li>Action Condition 2  </li>
+</ul>
+<h2 id="0x16-actiondataend">0x16 - ActionDataEnd</h2>
+<p>An Action with a self-contained Data Message. </p>
+<p>This message acts as the combination of an <strong>ActionExt</strong> Message and a <strong>DataEnd</strong> Message. Unlike <strong>ActionData</strong>, this 
+message is entirely self-contained, and does not imply additional attached <strong>Data</strong> or <strong>DataEnd</strong> messages.</p>
+<h4 id="bytes_6">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+<th>15</th>
+<th>16</th>
+<th>17</th>
+<th>18</th>
+<th>19</th>
+<th>20</th>
+<th>21</th>
+<th>22</th>
+<th>23</th>
+<th>24</th>
+<th>25</th>
+<th>...</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>AR</td>
+<td>AR</td>
+<td>AR</td>
+<td>AR</td>
+<td>AN</td>
+<td>AN</td>
+<td>AN</td>
+<td>AN</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC1</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>AC2</td>
+<td>SIZ</td>
+<td>DAT</td>
+<td>DAT</td>
+<td>DAT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_6">Components</h4>
+<ul>
+<li>Head </li>
+<li>Client ID </li>
+<li>Message ID </li>
+<li>Actor ID </li>
+<li>Action ID </li>
+<li>Action Condition 1 </li>
+<li>Action Condition 2  </li>
+</ul>
 <h1 id="0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</h1>
 <p>These Messages communicate information about the state of the client, server, and connection.</p>
 <h2 id="0xff-ack">0xFF - Ack</h2>
 <p>Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
  messages never require further Acks. See <a href="../ack-behavior">Ack Behavior</a> for details on GGMP's Ack behavior.</p>
-<h4 id="bytes_5">Bytes</h4>
+<h4 id="bytes_7">Bytes</h4>
 <table>
 <thead>
 <tr>
-<th>6</th>
-<th>5</th>
-<th>4</th>
-<th>3</th>
-<th>2</th>
-<th>1</th>
 <th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
 </tr>
 </thead>
 <tbody>
@@ -465,10 +660,11 @@ number of <code>0x0E</code> <strong>Data</strong> Messages, and exactly one <cod
 <td>PMSG</td>
 <td>PMSG</td>
 <td>PMSG</td>
+<td>PMSG</td>
 </tr>
 </tbody>
 </table>
-<h4 id="components_5">Components</h4>
+<h4 id="components_7">Components</h4>
 <ul>
 <li>Head</li>
 <li>Client ID</li>
