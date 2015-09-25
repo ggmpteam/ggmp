@@ -85,6 +85,10 @@
             
                 <li class="toctree-l3"><a href="#technical-specifications">Technical Specifications</a></li>
                 
+                    <li><a class="toctree-l4" href="#networking">Networking</a></li>
+                
+                    <li><a class="toctree-l4" href="#components">Components</a></li>
+                
             
             </ul>
         
@@ -135,7 +139,28 @@
             <div class="section">
               
                 <h1 id="technical-specifications">Technical Specifications</h1>
+<h2 id="networking">Networking</h2>
 <p>GGMP uses UDP port 12358.</p>
+<h2 id="components">Components</h2>
+<p>The following components MUST be decoded as <strong>32-bit unsigned integers.</strong> </p>
+<ul>
+<li>Client ID (CL)</li>
+<li>Message ID (MID)</li>
+<li>Actor ID (AR)</li>
+<li>Action ID (AN)</li>
+<li>Action Condition 1 (AC1)</li>
+<li>Action Condition 2 (AC2)</li>
+</ul>
+<p>The following components MUST be decoded as <strong>8-bit unsigned integers.</strong></p>
+<ul>
+<li>Header (HEAD)</li>
+<li>Size (SIZ)</li>
+</ul>
+<p>The following components MUST be provided by language libraries as an <strong>iterable stream of bytes</strong>, preferably using 
+that language's built-in types. Decoding them is left to the implementation.</p>
+<ul>
+<li>Data (DAT)</li>
+</ul>
               
             </div>
           </div>
