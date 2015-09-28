@@ -1,7 +1,7 @@
 # GGMP - Generic Gameserver Messaging Protocol
 
 GGMP is a UDP-based, application layer messaging protocol for standard, efficient communication between game servers and
-clients. It's designed from the ground up to be 
+clients. It's designed from the ground up to be: 
 
 * Lightweight: Exactly as much data as needed and no more.
 * Self-contained: Transmit as much information about an Action in one Message as possible
