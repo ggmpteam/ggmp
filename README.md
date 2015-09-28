@@ -1,3 +1,7 @@
+# GGMP Protocol Specification
+
+[Link to Documenation](ggmpteam.github.io/ggmp)
+
 # GGMP - Generic Gameserver Messaging Protocol
 
 GGMP is a UDP-based, application layer messaging protocol for standard, efficient communication between game servers and
