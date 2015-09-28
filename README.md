@@ -1,6 +1,6 @@
 # GGMP Protocol Specification
 
-[Link to Documenation](ggmpteam.github.io/ggmp)
+[Link to Documenation](http://ggmpteam.github.io/ggmp)
 
 # GGMP - Generic Gameserver Messaging Protocol
 
