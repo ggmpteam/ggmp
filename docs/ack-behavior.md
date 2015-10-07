@@ -4,7 +4,7 @@ The Ack message is perhaps the most important of the Message Types in GGMP. It i
 server must know that the other end has received their message; e.g., any situation in which the game state risks 
 becoming desynchronized between the two parties. Consider the following example.
 
-*Note: All discussions in this article assume ReqAck variants when discussing a **MessageType**. 
+_Note: All discussions in this article assume ReqAck variants when discussing a **MessageType**_. 
 
 ```
 HEAD 0x05   Action Extended Req Ack
@@ -89,8 +89,35 @@ Sender                      Receiver
 |
 ```
 
+If any message sent is not properly acknowledged by this point, the message is considered **lost**. A lost message
+must not be sent with the same Message ID, however it may be re-sent with a new Message ID. 
 The Protocol does not explicitly define behavior beyond this point. However, the GGMP Libraries provided by the GGMP 
-Contributors will offer some advanced functionality.
+Contributors will offer some advanced functionality. Possible implementations include automatically re-sending messages, 
+raising exceptions, or variable behavior depending on Message Type or Action ID.
+
+## Ack Behavior in the GGMP Language Libraries
+
+One of the strengths in the GGMP is the availability of client and server libraries for a variety of languages that will
+make its implementation near effortless. In designing the protocol, we attempt to keep decisions for the protocol separate
+from the decisions for the libraries. However, more often than not, one informs the other, and here we'll discuss the 
+desired behavior for the official language libraries.
+
+### Handling Lost Messages
+
+Currently, a GGMP language library maintains 4 queues:
+ 
+ * `inbox`, for Messages that have been received and are awaiting processing by the game itself
+ * `outbox`, for Messages that have been built and will be sent on the next call of `sendAll()` (or similar)
+ * `awaitbox`, for **ReqAck** Messages that have been sent but not Acked
+ * `lostbox`, for lost Messages
+  
+We intend to offer programmers at least the following options regarding lost messages:
+
+* Auto Resend: Automatically rebuild Messages from `lostbox` and resend them
+* ManualProcessing: Require the programmer to read from `lostbox` in order to determine how to handle side effects of a dropped message
+
+Additionally, we may implement a "burst fire" mode, where messages are sent in groups of 3 or more between the #TIMEOUT periods, 
+ in order to increase chance of receipt.
 
 ## Footnotes
 
