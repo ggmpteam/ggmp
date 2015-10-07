@@ -80,6 +80,8 @@
                 
                     <li><a class="toctree-l4" href="#mandatory-ack-behavior">Mandatory Ack Behavior</a></li>
                 
+                    <li><a class="toctree-l4" href="#ack-behavior-in-the-ggmp-language-libraries">Ack Behavior in the GGMP Language Libraries</a></li>
+                
                     <li><a class="toctree-l4" href="#footnotes">Footnotes</a></li>
                 
             
@@ -128,7 +130,7 @@
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/bomattin/ggmp" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/ggmpteam/ggmp" class="icon icon-github"> Edit on GitHub</a>
         
       
     </li>
@@ -142,7 +144,7 @@
 <p>The Ack message is perhaps the most important of the Message Types in GGMP. It is used in situations where a client or 
 server must know that the other end has received their message; e.g., any situation in which the game state risks 
 becoming desynchronized between the two parties. Consider the following example.</p>
-<p>*Note: All discussions in this article assume ReqAck variants when discussing a <strong>MessageType</strong>. </p>
+<p><em>Note: All discussions in this article assume ReqAck variants when discussing a <strong>MessageType</strong></em>. </p>
 <pre><code>HEAD 0x05   Action Extended Req Ack
 ...
 AR   0x0001 Player 1 Entity Model
@@ -215,8 +217,31 @@ Sender                      Receiver
 |
 </code></pre>
 
-<p>The Protocol does not explicitly define behavior beyond this point. However, the GGMP Libraries provided by the GGMP 
-Contributors will offer some advanced functionality.</p>
+<p>If any message sent is not properly acknowledged by this point, the message is considered <strong>lost</strong>. A lost message
+must not be sent with the same Message ID, however it may be re-sent with a new Message ID. 
+The Protocol does not explicitly define behavior beyond this point. However, the GGMP Libraries provided by the GGMP 
+Contributors will offer some advanced functionality. Possible implementations include automatically re-sending messages, 
+raising exceptions, or variable behavior depending on Message Type or Action ID.</p>
+<h2 id="ack-behavior-in-the-ggmp-language-libraries">Ack Behavior in the GGMP Language Libraries</h2>
+<p>One of the strengths in the GGMP is the availability of client and server libraries for a variety of languages that will
+make its implementation near effortless. In designing the protocol, we attempt to keep decisions for the protocol separate
+from the decisions for the libraries. However, more often than not, one informs the other, and here we'll discuss the 
+desired behavior for the official language libraries.</p>
+<h3 id="handling-lost-messages">Handling Lost Messages</h3>
+<p>Currently, a GGMP language library maintains 4 queues:</p>
+<ul>
+<li><code>inbox</code>, for Messages that have been received and are awaiting processing by the game itself</li>
+<li><code>outbox</code>, for Messages that have been built and will be sent on the next call of <code>sendAll()</code> (or similar)</li>
+<li><code>awaitbox</code>, for <strong>ReqAck</strong> Messages that have been sent but not Acked</li>
+<li><code>lostbox</code>, for lost Messages</li>
+</ul>
+<p>We intend to offer programmers at least the following options regarding lost messages:</p>
+<ul>
+<li>Auto Resend: Automatically rebuild Messages from <code>lostbox</code> and resend them</li>
+<li>ManualProcessing: Require the programmer to read from <code>lostbox</code> in order to determine how to handle side effects of a dropped message</li>
+</ul>
+<p>Additionally, we may implement a "burst fire" mode, where messages are sent in groups of 3 or more between the #TIMEOUT periods, 
+ in order to increase chance of receipt.</p>
 <h2 id="footnotes">Footnotes</h2>
 <ol>
 <li>There are many valid situations where it's also critical that all state-based movement messages get received as well.</li>
