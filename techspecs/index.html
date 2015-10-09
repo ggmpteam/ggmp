@@ -139,8 +139,12 @@
             <div class="section">
               
                 <h1 id="technical-specifications">Technical Specifications</h1>
+<p><em>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      <a href="https://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</em></p>
 <h2 id="networking">Networking</h2>
-<p>GGMP uses UDP port 12358.</p>
+<p>GGMP MUST use UDP port 12358.</p>
 <h2 id="components">Components</h2>
 <p>The following components MUST be decoded as <strong>32-bit unsigned integers.</strong> </p>
 <ul>
@@ -156,8 +160,8 @@
 <li>Header (HEAD)</li>
 <li>Size (SIZ)</li>
 </ul>
-<p>The following components MUST be provided by language libraries as an <strong>iterable stream of bytes</strong>, preferably using 
-that language's built-in types. Decoding them is left to the implementation.</p>
+<p>The following components MUST be provided by language libraries as an <strong>iterable stream of bytes</strong>. Decoding into such
+ a format SHOULD use one of that language's built-in types. Decoding them is left to the implementation.</p>
 <ul>
 <li>Data (DAT)</li>
 </ul>
