@@ -32,7 +32,7 @@ libraries is underway, but in **pre-alpha** phase.
 
 ## Version
 
-GGMP is currently on version 0.3.0s
+GGMP is currently on version 0.3.0
 
 GGMP and its official language libraries (those maintained by the GGMP team) use semantic versioning, with an additional
 requirement:

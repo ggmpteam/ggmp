@@ -2,6 +2,10 @@
 
 ## Future
 * **[PROTOCOL:MESSAGES]** Do **ActionExt** or **ActionShort** have a place anymore?
+* **[PROTOCOL:COMMUNICATION]** Suggested "burst fire" mechanism of sending messages.
+
+## v0.3.0
+* **[PROTOCOL:COMMUNICATION, LIBRARIES:COMMUNICATION]** Modified Ack requirements, mandating certain behaviors from language libraries.  
 
 ## v0.2.0
 * **[PROTOCOL:MESSAGES]** Made requiring acknowledgment the default behavior for all message types. 
