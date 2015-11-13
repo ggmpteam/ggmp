@@ -76,9 +76,13 @@
                 
                     <li><a class="toctree-l4" href="#ac1-ac2-action-condition-1-and-2">AC1, AC2: Action Condition 1 and 2</a></li>
                 
-                    <li><a class="toctree-l4" href="#dat-action-data">DAT : Action Data</a></li>
+                    <li><a class="toctree-l4" href="#dat-data">DAT : Data</a></li>
                 
                     <li><a class="toctree-l4" href="#siz-data-size">SIZ: Data Size</a></li>
+                
+                    <li><a class="toctree-l4" href="#typ-data-type">TYP: Data Type</a></li>
+                
+                    <li><a class="toctree-l4" href="#num-data-components-count">NUM: Data Components Count</a></li>
                 
                     <li><a class="toctree-l4" href="#pmsg-parent-message">PMSG: Parent Message</a></li>
                 
@@ -285,21 +289,82 @@ can communicate game state (though this is discouraged) or game actions. </p>
 </ul>
 <p>Action Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an 
 Action does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.</p>
-<p>If the data associated with an Action would exceed 8 bytes, use an <strong>ActionExt</strong> Message, which sends arbitrary data in
-a following <strong>Data</strong> or <strong>DataEnd</strong> Message. </p>
-<h2 id="dat-action-data">DAT : Action Data</h2>
+<p>If the data associated with an Action would exceed 8 bytes, use a message type that uses the Data component.</p>
+<h2 id="dat-data">DAT : Data</h2>
 <ul>
 <li>Size: User-defined</li>
 <li>Acceptable Values: User-defined</li>
 </ul>
-<p>Action Data makes up the primary content of a <strong>Data</strong> Message. Its purpose is to communicate data which is too large to
-fit in a standard <strong>Action</strong> Message. </p>
+<p>Data is used for the transfer of Data which is either too large for an <strong>Action</strong> Message, or which can be sent separately.
+Message Types implementing Data include: <strong>ArbData</strong>, <strong>Data</strong>, <strong>DataEnd</strong>, etc. </p>
 <h2 id="siz-data-size">SIZ: Data Size</h2>
 <ul>
 <li>Size: 1 byte</li>
 <li>Acceptable Values: 0x00 - 0xFF</li>
 </ul>
 <p>Data Size specifies the length, in bytes, of Action Data attached to a <strong>Data</strong> or <strong>DataEnd</strong> Message.</p>
+<h2 id="typ-data-type">TYP: Data Type</h2>
+<ul>
+<li>Size: 1 byte</li>
+<li>Acceptable Values: 0x00 - 0x06 </li>
+</ul>
+<p>Data Type is used in <strong>ArbData</strong> (and, in the future, <strong>Data</strong> and similar Messages) to indicate to the recipient how to decode
+the related Data Component. Available types are:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Type</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>UINT32</td>
+<td>Unsigned 32-bit Integer</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>INT32</td>
+<td>Signed 32-bit Integer</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>UINT64</td>
+<td>Unsigned 64-bit Integer</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>INT64</td>
+<td>Signed 64-bit Integer</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>DOUBLE</td>
+<td>IEEE 754 Double-precision floating point</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ASCII</td>
+<td>ASCII String, NOT null-terminated</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTF8</td>
+<td>UTF-8 String</td>
+</tr>
+</tbody>
+</table>
+<p>At this time, custom types are not permitted. If an implementation calls for a custom type, those types should begin at 
+0xFF, to allow for future expansion of this Component.</p>
+<h2 id="num-data-components-count">NUM: Data Components Count</h2>
+<ul>
+<li>Size: 1 byte</li>
+<li>Acceptable Values: 0x01 - 0x08</li>
+</ul>
+<p>Data Components Count is used in <strong>ArbData</strong> to signify how many Data components are included in the message. This allows
+for the recipient to more easily process an incoming <strong>ArbData</strong> message.</p>
 <h2 id="pmsg-parent-message">PMSG: Parent Message</h2>
 <ul>
 <li>Size: 4 bytes</li>

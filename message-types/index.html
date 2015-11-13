@@ -90,6 +90,8 @@
                 
                     <li><a class="toctree-l4" href="#0x16-actiondataend">0x16 - ActionDataEnd</a></li>
                 
+                    <li><a class="toctree-l4" href="#0x18-arbdata">0x18 - ArbData</a></li>
+                
             
                 <li class="toctree-l3"><a href="#0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</a></li>
                 
@@ -632,12 +634,73 @@ message is entirely self-contained, and does not imply additional attached <stro
 <li>Action Condition 1 </li>
 <li>Action Condition 2  </li>
 </ul>
+<h2 id="0x18-arbdata">0x18 - ArbData</h2>
+<p>A Data Message with arbitrarily structured Data components. These Data components are preceded by a Size component and a
+DataType component which tells the recipient how to decode them.</p>
+<h4 id="bytes_7">Bytes</h4>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>...</th>
+<th>...</th>
+<th>...</th>
+<th>...</th>
+<th>...</th>
+<th>...</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td>CL</td>
+<td>CL</td>
+<td>CL</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>MID</td>
+<td>NUM</td>
+<td>SIZ</td>
+<td>TYP</td>
+<td>DAT</td>
+<td>...</td>
+<td>SIZ</td>
+<td>TYP</td>
+<td>DAT</td>
+<td>DAT</td>
+<td>...</td>
+<td>DAT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="components_7">Components</h4>
+<ul>
+<li>Head </li>
+<li>Client ID </li>
+<li>Message ID </li>
+<li>Data Component Count</li>
+<li>Data Size</li>
+<li>Data</li>
+</ul>
 <h1 id="0xf0-0xff-protocol-state-message-types">0xF0 - 0xFF: Protocol State Message Types</h1>
 <p>These Messages communicate information about the state of the client, server, and connection.</p>
 <h2 id="0xff-ack">0xFF - Ack</h2>
 <p>Acknowledges the receipt of any Message which requires it. PMSG is the Message ID of the Message requiring Ack. Ack 
  messages never require further Acks. See <a href="../ack-behavior">Ack Behavior</a> for details on GGMP's Ack behavior.</p>
-<h4 id="bytes_7">Bytes</h4>
+<h4 id="bytes_8">Bytes</h4>
 <table>
 <thead>
 <tr>
@@ -664,7 +727,7 @@ message is entirely self-contained, and does not imply additional attached <stro
 </tr>
 </tbody>
 </table>
-<h4 id="components_7">Components</h4>
+<h4 id="components_8">Components</h4>
 <ul>
 <li>Head</li>
 <li>Client ID</li>
