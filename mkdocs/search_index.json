@@ -192,7 +192,7 @@
         }, 
         {
             "location": "/CHANGELOG/", 
-            "text": "CHANGELOG\n\n\nFuture\n\n\n\n\n[PROTOCOL:MESSAGES]\n Refactor \nData\n behavior, consider one universal \nDataEnd\n message?\n\n\n[PROTOCOL:MESSAGES]\n Do \nActionExt\n or \nActionShort\n have a place anymore?\n\n\n[PROTOCOL:COMMUNICATION]\n Suggested \"burst fire\" mechanism of sending messages.\n\n\n\n\nv0.3.0\n\n\n\n\n[PROTOCOL:COMMUNICATION, LIBRARIES:COMMUNICATION]\n Modified Ack requirements, mandating certain behaviors from language libraries.  \n\n\n\n\nv0.2.0\n\n\n\n\n[PROTOCOL:MESSAGES]\n Made requiring acknowledgment the default behavior for all message types. \n\n\n[PROTOCOL:MESSAGES]\n Made Message ID use mandatory\n\n\n[PROTOCOL:MESSAGES]\n Added new \nActionData\n message type, which acts as a combination of \nAction\n and \nDataEnd\n\n\n[PROTOCOL:MESSAGES]\n Reversed byte ordering to a sensible arrangement. The Header should refer to the first byte sent\nand received, and so forth.\n\n\n[PROTOCOL:MESSAGES]\n Extended the size of all non-head components to 4 bytes for ease of message parsing, except\n\nActionShort\n messages.\n\n\n\n\nv0.1.0\n\n\n\n\n[PROTOCOL:GENERAL]\n Initial versioning, following Semantic Versioning practices.\n\n\n[DOC]\n Added changelog.", 
+            "text": "CHANGELOG\n\n\nFuture\n\n\n\n\n[PROTOCOL:MESSAGES]\n Refactor \nData\n behavior, consider one universal \nDataEnd\n message?\n\n\n[PROTOCOL:MESSAGES]\n Do \nActionExt\n or \nActionShort\n have a place anymore?\n\n\n[PROTOCOL:COMMUNICATION]\n Suggested \"burst fire\" mechanism of sending messages.\n\n\n\n\nv0.4.0\n\n\n\n\n[PROTOCOL:MESSAGES]\n Added \nArbData\n and Data Types.\n\n\n\n\nv0.3.0\n\n\n\n\n[PROTOCOL:COMMUNICATION, LIBRARIES:COMMUNICATION]\n Modified Ack requirements, mandating certain behaviors from language libraries.  \n\n\n\n\nv0.2.0\n\n\n\n\n[PROTOCOL:MESSAGES]\n Made requiring acknowledgment the default behavior for all message types. \n\n\n[PROTOCOL:MESSAGES]\n Made Message ID use mandatory\n\n\n[PROTOCOL:MESSAGES]\n Added new \nActionData\n message type, which acts as a combination of \nAction\n and \nDataEnd\n\n\n[PROTOCOL:MESSAGES]\n Reversed byte ordering to a sensible arrangement. The Header should refer to the first byte sent\nand received, and so forth.\n\n\n[PROTOCOL:MESSAGES]\n Extended the size of all non-head components to 4 bytes for ease of message parsing, except\n\nActionShort\n messages.\n\n\n\n\nv0.1.0\n\n\n\n\n[PROTOCOL:GENERAL]\n Initial versioning, following Semantic Versioning practices.\n\n\n[DOC]\n Added changelog.", 
             "title": "CHANGELOG"
         }, 
         {
@@ -204,6 +204,11 @@
             "location": "/CHANGELOG/#future", 
             "text": "[PROTOCOL:MESSAGES]  Refactor  Data  behavior, consider one universal  DataEnd  message?  [PROTOCOL:MESSAGES]  Do  ActionExt  or  ActionShort  have a place anymore?  [PROTOCOL:COMMUNICATION]  Suggested \"burst fire\" mechanism of sending messages.", 
             "title": "Future"
+        }, 
+        {
+            "location": "/CHANGELOG/#v040", 
+            "text": "[PROTOCOL:MESSAGES]  Added  ArbData  and Data Types.", 
+            "title": "v0.4.0"
         }, 
         {
             "location": "/CHANGELOG/#v030", 
