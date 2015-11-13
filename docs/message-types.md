@@ -179,6 +179,25 @@ message is entirely self-contained, and does not imply additional attached **Dat
 * Action Condition 1 
 * Action Condition 2  
 
+## 0x18 - ArbData
+A Data Message with arbitrarily structured Data components. These Data components are preceded by a Size component and a
+DataType component which tells the recipient how to decode them.
+
+#### Bytes
+
+|0  |1  |2  |3  |4  |5  |6  |7  |8  |9  |10 |11 |...|...|...|...|...|...|n  |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|HEAD|CL|CL |CL |MID|MID|MID|MID|NUM|SIZ|TYP|DAT|...|SIZ|TYP|DAT|DAT|...|DAT|
+
+#### Components
+
+* Head 
+* Client ID 
+* Message ID 
+* Data Component Count
+* Data Size
+* Data
+
 
 # 0xF0 - 0xFF: Protocol State Message Types
  

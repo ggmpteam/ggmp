@@ -1,7 +1,11 @@
+# GGMP Protocol Specification
+
+[Link to Documentation](http://ggmpteam.github.io/ggmp)
+
 # GGMP - Generic Gameserver Messaging Protocol
 
 GGMP is a UDP-based, application layer messaging protocol for standard, efficient communication between game servers and
-clients. It's designed from the ground up to be 
+clients. It's designed from the ground up to be: 
 
 * Lightweight: Exactly as much data as needed and no more.
 * Self-contained: Transmit as much information about an Action in one Message as possible
@@ -28,7 +32,7 @@ libraries is underway, but in **pre-alpha** phase.
 
 ## Version
 
-GGMP is currently on version 0.2.0
+GGMP is currently on version 0.3.0
 
 GGMP and its official language libraries (those maintained by the GGMP team) use semantic versioning, with an additional
 requirement:

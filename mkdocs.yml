@@ -1,5 +1,5 @@
 site_name: GGMP Documentation
-repo_url: https://github.com/bomattin/ggmp
+repo_url: https://github.com/ggmpteam/ggmp
 repo_name: GitHub
 
 pages:
@@ -9,4 +9,6 @@ pages:
 - Ack Behavior: 'ack-behavior.md'
 - Technical Specifications: 'techspecs.md'
 - CHANGELOG: 'CHANGELOG.md'
+
 theme: readthedocs
+extra_css: ['css/docs.css']
