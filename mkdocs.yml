@@ -11,4 +11,4 @@ pages:
 - CHANGELOG: 'CHANGELOG.md'
 
 theme: readthedocs
-extra_css: ['assets/docs.css']
+extra_css: ['css/docs.css']
