@@ -1,8 +1,12 @@
 # CHANGELOG
 
 ## Future
+* **[PROTOCOL:MESSAGES]** Refactor **Data** behavior, consider one universal **DataEnd** message?
 * **[PROTOCOL:MESSAGES]** Do **ActionExt** or **ActionShort** have a place anymore?
 * **[PROTOCOL:COMMUNICATION]** Suggested "burst fire" mechanism of sending messages.
+
+## v0.4.0 
+* **[PROTOCOL:MESSAGES]** Added **ArbData** and Data Types.
 
 ## v0.3.0
 * **[PROTOCOL:COMMUNICATION, LIBRARIES:COMMUNICATION]** Modified Ack requirements, mandating certain behaviors from language libraries.  

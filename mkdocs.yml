@@ -9,4 +9,6 @@ pages:
 - Ack Behavior: 'ack-behavior.md'
 - Technical Specifications: 'techspecs.md'
 - CHANGELOG: 'CHANGELOG.md'
+
 theme: readthedocs
+extra_css: ['assets/docs.css']

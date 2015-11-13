@@ -83,21 +83,49 @@ can communicate game state (though this is discouraged) or game actions.
 Action Conditions act as parameters for Actions. They are used to attach data an Action. Their use is optional. If an 
 Action does not require the use of Conditions, the byte ranges for those conditions should be cleared to 0x00.
 
-If the data associated with an Action would exceed 8 bytes, use an **ActionExt** Message, which sends arbitrary data in
-a following **Data** or **DataEnd** Message. 
+If the data associated with an Action would exceed 8 bytes, use a message type that uses the Data component.
  
-## DAT : Action Data
+## DAT : Data
 * Size: User-defined
 * Acceptable Values: User-defined
 
-Action Data makes up the primary content of a **Data** Message. Its purpose is to communicate data which is too large to
-fit in a standard **Action** Message. 
+Data is used for the transfer of Data which is either too large for an **Action** Message, or which can be sent separately.
+Message Types implementing Data include: **ArbData**, **Data**, **DataEnd**, etc. 
+
 
 ## SIZ: Data Size
 * Size: 1 byte
 * Acceptable Values: 0x00 - 0xFF
 
 Data Size specifies the length, in bytes, of Action Data attached to a **Data** or **DataEnd** Message.
+
+## TYP: Data Type
+* Size: 1 byte
+* Acceptable Values: 0x00 - 0x06 
+
+Data Type is used in **ArbData** (and, in the future, **Data** and similar Messages) to indicate to the recipient how to decode
+the related Data Component. Available types are:
+
+|Value |Type |Detail|
+|-|-|-|
+|0x00 |UINT32 |Unsigned 32-bit Integer|
+|0x01 |INT32  |Signed 32-bit Integer  |
+|0x02 |UINT64 |Unsigned 64-bit Integer|
+|0x03 |INT64  |Signed 64-bit Integer  |
+|0x04 |DOUBLE |IEEE 754 Double-precision floating point |
+|0x05 |ASCII  |ASCII String, NOT null-terminated |
+|0x06 |UTF8   |UTF-8 String           |
+
+At this time, custom types are not permitted. If an implementation calls for a custom type, those types should begin at 
+0xFF, to allow for future expansion of this Component.
+
+## NUM: Data Components Count
+* Size: 1 byte
+* Acceptable Values: 0x01 - 0x08
+
+Data Components Count is used in **ArbData** to signify how many Data components are included in the message. This allows
+for the recipient to more easily process an incoming **ArbData** message.
+
 
 ## PMSG: Parent Message
 * Size: 4 bytes
