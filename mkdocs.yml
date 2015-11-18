@@ -7,6 +7,7 @@ pages:
 - Components: 'components.md'
 - Message Types: 'message-types.md'
 - Ack Behavior: 'ack-behavior.md'
+- Client Features: 'client-features.md'
 - Technical Specifications: 'techspecs.md'
 - CHANGELOG: 'CHANGELOG.md'
 
