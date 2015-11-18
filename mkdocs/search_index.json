@@ -171,6 +171,16 @@
             "title": "Footnotes"
         }, 
         {
+            "location": "/client-features/", 
+            "text": "Client Features\n\n\nWhile most of the GGMP Specification dictates the protocol, this small document outlines some expected features of the\nGGMP language libraries.\n\n\nDDOS Dropping\n\n\nAll incoming messages will be checked upon being read from the socket. If the message is not from a trusted client, it \nreceives no further processing.\n\n\nCheat Prevention\n\n\nA message will not be processed if its client ID does not match the origin IP address it expects. Each Client can be\nassigned a \"whitelist\" of Action IDs it may execute. \n\n\nAction Callbacks\n\n\nFunctions can be assigned to a class (MessageActionHandler) which can call methods automatically depending on which \nAction is found. It will include the data already decoded.", 
+            "title": "Client Features"
+        }, 
+        {
+            "location": "/client-features/#client-features", 
+            "text": "While most of the GGMP Specification dictates the protocol, this small document outlines some expected features of the\nGGMP language libraries.  DDOS Dropping  All incoming messages will be checked upon being read from the socket. If the message is not from a trusted client, it \nreceives no further processing.  Cheat Prevention  A message will not be processed if its client ID does not match the origin IP address it expects. Each Client can be\nassigned a \"whitelist\" of Action IDs it may execute.   Action Callbacks  Functions can be assigned to a class (MessageActionHandler) which can call methods automatically depending on which \nAction is found. It will include the data already decoded.", 
+            "title": "Client Features"
+        }, 
+        {
             "location": "/techspecs/", 
             "text": "Technical Specifications\n\n\nThe key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL\n      NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\",  \"MAY\", and\n      \"OPTIONAL\" in this document are to be interpreted as described in\n      \nRFC 2119\n.\n\n\nNetworking\n\n\nGGMP MUST use UDP port 12358.\n\n\nComponents\n\n\nThe following components MUST be decoded as \n32-bit unsigned integers.\n \n\n\n\n\nClient ID (CL)\n\n\nMessage ID (MID)\n\n\nActor ID (AR)\n\n\nAction ID (AN)\n\n\nAction Condition 1 (AC1)\n\n\nAction Condition 2 (AC2)\n\n\n\n\nThe following components MUST be decoded as \n8-bit unsigned integers.\n\n\n\n\nHeader (HEAD)\n\n\nSize (SIZ)\n\n\n\n\nThe following components MUST be provided by language libraries as an \niterable stream of bytes\n. Decoding into such\n a format SHOULD use one of that language's built-in types. Decoding them is left to the implementation.\n\n\n\n\nData (DAT)", 
             "title": "Technical Specifications"

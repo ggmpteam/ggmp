@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CHANGELOG - GGMP Documentation</title>
+  <title>Client Features - GGMP Documentation</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -21,7 +21,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "CHANGELOG";
+    var mkdocs_page_name = "Client Features";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -79,8 +79,21 @@
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../client-features/">Client Features</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Client Features</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#client-features">Client Features</a></li>
+                
+                    <li><a class="toctree-l4" href="#ddos-dropping">DDOS Dropping</a></li>
+                
+                    <li><a class="toctree-l4" href="#cheat-prevention">Cheat Prevention</a></li>
+                
+                    <li><a class="toctree-l4" href="#action-callbacks">Action Callbacks</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
@@ -93,25 +106,8 @@
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">CHANGELOG</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#changelog">CHANGELOG</a></li>
-                
-                    <li><a class="toctree-l4" href="#future">Future</a></li>
-                
-                    <li><a class="toctree-l4" href="#v040">v0.4.0</a></li>
-                
-                    <li><a class="toctree-l4" href="#v030">v0.3.0</a></li>
-                
-                    <li><a class="toctree-l4" href="#v020">v0.2.0</a></li>
-                
-                    <li><a class="toctree-l4" href="#v010">v0.1.0</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../CHANGELOG/">CHANGELOG</a>
         
     </li>
 <li>
@@ -138,7 +134,7 @@
     
       
     
-    <li>CHANGELOG</li>
+    <li>Client Features</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -152,36 +148,18 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="changelog">CHANGELOG</h1>
-<h2 id="future">Future</h2>
-<ul>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Refactor <strong>Data</strong> behavior, consider one universal <strong>DataEnd</strong> message?</li>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Do <strong>ActionExt</strong> or <strong>ActionShort</strong> have a place anymore?</li>
-<li><strong>[PROTOCOL:COMMUNICATION]</strong> Suggested "burst fire" mechanism of sending messages.</li>
-</ul>
-<h2 id="v040">v0.4.0</h2>
-<ul>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Added <strong>ArbData</strong> and Data Types.</li>
-</ul>
-<h2 id="v030">v0.3.0</h2>
-<ul>
-<li><strong>[PROTOCOL:COMMUNICATION, LIBRARIES:COMMUNICATION]</strong> Modified Ack requirements, mandating certain behaviors from language libraries.  </li>
-</ul>
-<h2 id="v020">v0.2.0</h2>
-<ul>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Made requiring acknowledgment the default behavior for all message types. </li>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Made Message ID use mandatory</li>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Added new <strong>ActionData</strong> message type, which acts as a combination of <strong>Action</strong> and <strong>DataEnd</strong></li>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Reversed byte ordering to a sensible arrangement. The Header should refer to the first byte sent
-and received, and so forth.</li>
-<li><strong>[PROTOCOL:MESSAGES]</strong> Extended the size of all non-head components to 4 bytes for ease of message parsing, except
-<strong>ActionShort</strong> messages.</li>
-</ul>
-<h2 id="v010">v0.1.0</h2>
-<ul>
-<li><strong>[PROTOCOL:GENERAL]</strong> Initial versioning, following Semantic Versioning practices.</li>
-<li><strong>[DOC]</strong> Added changelog.</li>
-</ul>
+                <h1 id="client-features">Client Features</h1>
+<p>While most of the GGMP Specification dictates the protocol, this small document outlines some expected features of the
+GGMP language libraries.</p>
+<h3 id="ddos-dropping">DDOS Dropping</h3>
+<p>All incoming messages will be checked upon being read from the socket. If the message is not from a trusted client, it 
+receives no further processing.</p>
+<h3 id="cheat-prevention">Cheat Prevention</h3>
+<p>A message will not be processed if its client ID does not match the origin IP address it expects. Each Client can be
+assigned a "whitelist" of Action IDs it may execute. </p>
+<h3 id="action-callbacks">Action Callbacks</h3>
+<p>Functions can be assigned to a class (MessageActionHandler) which can call methods automatically depending on which 
+Action is found. It will include the data already decoded.</p>
               
             </div>
           </div>
@@ -189,8 +167,10 @@ and received, and so forth.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../techspecs/" class="btn btn-neutral float-right" title="Technical Specifications"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../techspecs/" class="btn btn-neutral" title="Technical Specifications"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../ack-behavior/" class="btn btn-neutral" title="Ack Behavior"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -218,8 +198,10 @@ and received, and so forth.</li>
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../techspecs/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../ack-behavior/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../techspecs/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
